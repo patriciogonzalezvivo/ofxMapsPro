@@ -2,7 +2,7 @@
 #include "TileLoader.h"
 #include "ofxMapPro.h"
 
-void TileLoader::start(Coordinate _coord, MapProviderRef _provider, ofxMapPro *_map) {
+void TileLoader::start(Coordinate _coord, MapProviderRef _provider, TileMap *_map) {
 	coord = _coord;
 	provider = _provider;
 	theMap = _map;

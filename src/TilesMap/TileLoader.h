@@ -22,16 +22,16 @@ public:
     }
 };
 
-class ofxMapPro;
+class TileMap;
 class AbstractMapProvider;
 
 class TileLoader {
 public:
     Coordinate coord;
 	MapProviderRef provider;
-	ofxMapPro *theMap;
+	TileMap *theMap;
 	
-	void start(Coordinate _coord, MapProviderRef _provider, ofxMapPro *_map);
+	void start(Coordinate _coord, MapProviderRef _provider, TileMap *_map);
 	SimpleWebScraper sws;
 		
 	// callback events ----------------------------------------------------------
