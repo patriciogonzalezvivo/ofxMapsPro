@@ -17,16 +17,12 @@ public:
     ofxGlobePro();
     
     void    setupUI();
-    
     void    loadResources(string _path);
     
     string  getClassName();
+    float   getRadius(){return radius;}
     
     void    draw();
-    
-    VboMapLoader coast, borders, rivers;
-    aColor      cCoast, cBorders, cRivers;
-    bool        bCoast, bBorders, bRivers;
     
 protected:
     void    guiEvent(ofxUIEventArgs &e);
@@ -38,6 +34,10 @@ protected:
     
     ofShader    scatterShader;
     float       scatterExpo;
+    
+    VboMapLoader coast, borders, rivers;
+    aColor      cCoast, cBorders, cRivers;
+    bool        bCoast, bBorders, bRivers;
     
     float       radius;
 };

@@ -1,6 +1,6 @@
 #include "AbstractMapProvider.h"
 #include "TileLoader.h"
-#include "ofxMapPro.h"
+#include "ofxTileMapPro.h"
 
 void TileLoader::start(Coordinate _coord, MapProviderRef _provider, TileMap *_map) {
 	coord = _coord;

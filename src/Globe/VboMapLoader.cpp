@@ -17,7 +17,6 @@ VboMapLoader::VboMapLoader(){
 }
 
 void VboMapLoader::load(MapFileData _filePath){
-    
     filesQueue.push_back(_filePath);
     
     if(!bLoading){

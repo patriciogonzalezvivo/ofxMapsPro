@@ -176,264 +176,264 @@ void main(){\n\
     
     fragmentShader = "#version 120\n\
 \n\
-    uniform sampler2D earth_day;\n\
-    uniform sampler2D earth_night;\n\
-    uniform sampler2D normalMap;\n\
-    uniform sampler2D bumpMap;\n\
-    uniform sampler2D specularMap;\n\
+uniform sampler2D earth_day;\n\
+uniform sampler2D earth_night;\n\
+uniform sampler2D normalMap;\n\
+uniform sampler2D bumpMap;\n\
+uniform sampler2D specularMap;\n\
 \n\
-    uniform float useNormal;\n\
-    uniform float useRim;\n\
-    uniform float useTex;\n\
-    uniform float useTransparency;\n\
-    uniform float useSpecular;\n\
+uniform float useNormal;\n\
+uniform float useRim;\n\
+uniform float useTex;\n\
+uniform float useTransparency;\n\
+uniform float useSpecular;\n\
+\n\
+varying vec4 vPos;\n\
+varying vec2 vTexCoord;\n\
+varying vec3 vNormal;\n\
+varying vec3 vEye;\n\
+\n\
+int lightsNumber = 8;\n\
+\n\
+void DirectionalLight(in int i, in vec3 normal,inout vec4 ambient, inout vec4 diffuse, inout vec4 specular){\n\
+    float nDotVP;\n\
+    float nDotHV;\n\
+    float pf;\n\
     \n\
-    varying vec4 vPos;\n\
-    varying vec2 vTexCoord;\n\
-    varying vec3 vNormal;\n\
-    varying vec3 vEye;\n\
+    nDotVP = max(0.0, dot(normal, normalize(vec3(gl_LightSource[i].position))));\n\
+    nDotHV = max(0.0, dot(normal, vec3(gl_LightSource[i].halfVector)));\n\
     \n\
-    int lightsNumber = 8;\n\
+    if (nDotVP == 0.0)\n\
+        pf = 0.0;\n\
+    else\n\
+        pf = pow(nDotHV, gl_FrontMaterial.shininess);\n\
     \n\
-    void DirectionalLight(in int i, in vec3 normal,inout vec4 ambient, inout vec4 diffuse, inout vec4 specular){\n\
-        float nDotVP;\n\
-        float nDotHV;\n\
-        float pf;\n\
+    ambient  += gl_LightSource[i].ambient;\n\
+    diffuse  += gl_LightSource[i].diffuse * nDotVP;\n\
+    specular += gl_LightSource[i].specular * pf;\n\
+}\n\
+\n\
+void PointLight(in int i, in vec3 eye, in vec3 ecPosition3, in vec3 normal, inout vec4 ambient, inout vec4 diffuse, inout vec4 specular){\n\
+    float nDotVP;\n\
+    float nDotHV;\n\
+    float pf;\n\
+    float attenuation;\n\
+    float d;\n\
+    vec3  VP;\n\
+    vec3  halfVector;\n\
+    \n\
+    VP = vec3(gl_LightSource[i].position) - ecPosition3;\n\
         \n\
-        nDotVP = max(0.0, dot(normal, normalize(vec3(gl_LightSource[i].position))));\n\
-        nDotHV = max(0.0, dot(normal, vec3(gl_LightSource[i].halfVector)));\n\
-        \n\
-        if (nDotVP == 0.0)\n\
-            pf = 0.0;\n\
+    d = length(VP);\n\
+    \n\
+    VP = normalize(VP);\n\
+    \n\
+    attenuation = 1.0 / (gl_LightSource[i].constantAttenuation +\n\
+                         gl_LightSource[i].linearAttenuation * d +\n\
+                         gl_LightSource[i].quadraticAttenuation * d * d);\n\
+    \n\
+    halfVector = normalize(VP + eye);\n\
+    \n\
+    nDotVP = max(0.0, dot(normal, VP));\n\
+    nDotHV = max(0.0, dot(normal, halfVector));\n\
+    \n\
+    if (nDotVP == 0.0)\n\
+        pf = 0.0;\n\
+    else\n\
+        pf = pow(nDotHV, gl_FrontMaterial.shininess);\n\
+    \n\
+    ambient += gl_LightSource[i].ambient * attenuation;\n\
+    diffuse += gl_LightSource[i].diffuse * nDotVP * attenuation;\n\
+    specular += gl_LightSource[i].specular * pf * attenuation;\n\
+}\n\
+\n\
+void SpotLight(in int i, in vec3 eye, vec3 ecPosition3, in vec3 normal, inout vec4 ambient, inout vec4 diffuse, inout vec4 specular){\n\
+    float nDotVP, nDotHV, pf, spotDot, spotAttenuation, attenuation, d;\n\
+    vec3 VP, halfVector;\n\
+    \n\
+    VP = vec3(gl_LightSource[i].position) - ecPosition3;\n\
+    \n\
+    d = length(VP);\n\
+    \n\
+    VP = normalize(VP);\n\
+    \n\
+    attenuation = 1.0 / (gl_LightSource[i].constantAttenuation +\n\
+                         gl_LightSource[i].linearAttenuation * d +\n\
+                         gl_LightSource[i].quadraticAttenuation * d * d);\n\
+    \n\
+    spotDot = dot(-VP, normalize(gl_LightSource[i].spotDirection));\n\
+    \n\
+    if (spotDot < gl_LightSource[i].spotCosCutoff)\n\
+        spotAttenuation = 0.0;\n\
+    else\n\
+        spotAttenuation = pow(spotDot, gl_LightSource[i].spotExponent);\n\
+    \n\
+    attenuation *= spotAttenuation;\n\
+    \n\
+    halfVector = normalize(VP + eye);\n\
+    \n\
+    nDotVP = max(0.0, dot(normal, VP));\n\
+    nDotHV = max(0.0, dot(normal, halfVector));\n\
+    \n\
+    if (nDotVP == 0.0)\n\
+        pf = 0.0;\n\
+    else\n\
+        pf = pow(nDotHV, gl_FrontMaterial.shininess);\n\
+    \n\
+    ambient  += gl_LightSource[i].ambient * attenuation;\n\
+    diffuse  += gl_LightSource[i].diffuse * nDotVP * attenuation;\n\
+    specular += gl_LightSource[i].specular * pf * attenuation;\n\
+}\n\
+\n\
+vec4 calc_lighting_color(in vec3 _ecPosition, in vec3 _normal) {\n\
+    vec3 eye = vec3(0.0, 0.0, 1.0);\n\
+    \n\
+    vec4 amb  = vec4(0.0);\n\
+    vec4 diff = vec4(0.0);\n\
+    vec4 spec = vec4(0.0);\n\
+    \n\
+    for (int i = 0; i < lightsNumber; i++){\n\
+        if (gl_LightSource[i].position.w == 0.0)\n\
+            DirectionalLight(i, normalize(_normal), amb, diff, spec);\n\
+        else if (gl_LightSource[i].spotCutoff == 180.0)\n\
+            PointLight(i, eye, _ecPosition, normalize(_normal), amb, diff, spec);\n\
         else\n\
-            pf = pow(nDotHV, gl_FrontMaterial.shininess);\n\
-        \n\
-        ambient  += gl_LightSource[i].ambient;\n\
-        diffuse  += gl_LightSource[i].diffuse * nDotVP;\n\
-        specular += gl_LightSource[i].specular * pf;\n\
+            SpotLight(i, eye, _ecPosition, normalize(_normal), amb, diff, spec);\n\
     }\n\
+\n\
+    vec4 diffuseColor = gl_FrontMaterial.diffuse;\n\
     \n\
-    void PointLight(in int i, in vec3 eye, in vec3 ecPosition3, in vec3 normal, inout vec4 ambient, inout vec4 diffuse, inout vec4 specular){\n\
-        float nDotVP;\n\
-        float nDotHV;\n\
-        float pf;\n\
-        float attenuation;\n\
-        float d;\n\
-        vec3  VP;\n\
-        vec3  halfVector;\n\
-        \n\
-        VP = vec3(gl_LightSource[i].position) - ecPosition3;\n\
-        \n\
-        d = length(VP);\n\
-        \n\
-        VP = normalize(VP);\n\
-        \n\
-        attenuation = 1.0 / (gl_LightSource[i].constantAttenuation +\n\
-                             gl_LightSource[i].linearAttenuation * d +\n\
-                             gl_LightSource[i].quadraticAttenuation * d * d);\n\
-        \n\
-        halfVector = normalize(VP + eye);\n\
-        \n\
-        nDotVP = max(0.0, dot(normal, VP));\n\
-        nDotHV = max(0.0, dot(normal, halfVector));\n\
-        \n\
-        if (nDotVP == 0.0)\n\
-            pf = 0.0;\n\
-        else\n\
-            pf = pow(nDotHV, gl_FrontMaterial.shininess);\n\
-        \n\
-        ambient += gl_LightSource[i].ambient * attenuation;\n\
-        diffuse += gl_LightSource[i].diffuse * nDotVP * attenuation;\n\
-        specular += gl_LightSource[i].specular * pf * attenuation;\n\
-    }\n\
-    \n\
-    void SpotLight(in int i, in vec3 eye, vec3 ecPosition3, in vec3 normal, inout vec4 ambient, inout vec4 diffuse, inout vec4 specular){\n\
-        float nDotVP, nDotHV, pf, spotDot, spotAttenuation, attenuation, d;\n\
-        vec3 VP, halfVector;\n\
-        \n\
-        VP = vec3(gl_LightSource[i].position) - ecPosition3;\n\
-        \n\
-        d = length(VP);\n\
-        \n\
-        VP = normalize(VP);\n\
-        \n\
-        attenuation = 1.0 / (gl_LightSource[i].constantAttenuation +\n\
-                             gl_LightSource[i].linearAttenuation * d +\n\
-                             gl_LightSource[i].quadraticAttenuation * d * d);\n\
-        \n\
-        spotDot = dot(-VP, normalize(gl_LightSource[i].spotDirection));\n\
-        \n\
-        if (spotDot < gl_LightSource[i].spotCosCutoff)\n\
-            spotAttenuation = 0.0;\n\
-        else\n\
-            spotAttenuation = pow(spotDot, gl_LightSource[i].spotExponent);\n\
-        \n\
-        attenuation *= spotAttenuation;\n\
-        \n\
-        halfVector = normalize(VP + eye);\n\
-        \n\
-        nDotVP = max(0.0, dot(normal, VP));\n\
-        nDotHV = max(0.0, dot(normal, halfVector));\n\
-        \n\
-        if (nDotVP == 0.0)\n\
-            pf = 0.0;\n\
-        else\n\
-            pf = pow(nDotHV, gl_FrontMaterial.shininess);\n\
-        \n\
-        ambient  += gl_LightSource[i].ambient * attenuation;\n\
-        diffuse  += gl_LightSource[i].diffuse * nDotVP * attenuation;\n\
-        specular += gl_LightSource[i].specular * pf * attenuation;\n\
-    }\n\
-    \n\
-    vec4 calc_lighting_color(in vec3 _ecPosition, in vec3 _normal) {\n\
-        vec3 eye = vec3(0.0, 0.0, 1.0);\n\
-        \n\
-        vec4 amb  = vec4(0.0);\n\
-        vec4 diff = vec4(0.0);\n\
-        vec4 spec = vec4(0.0);\n\
-        \n\
-        for (int i = 0; i < lightsNumber; i++){\n\
-            if (gl_LightSource[i].position.w == 0.0)\n\
-                DirectionalLight(i, normalize(_normal), amb, diff, spec);\n\
-            else if (gl_LightSource[i].spotCutoff == 180.0)\n\
-                PointLight(i, eye, _ecPosition, normalize(_normal), amb, diff, spec);\n\
-            else\n\
-                SpotLight(i, eye, _ecPosition, normalize(_normal), amb, diff, spec);\n\
-        }\n\
-        \n\
-        vec4 diffuseColor = gl_FrontMaterial.diffuse;\n\
-        \n\
-        vec4 specular = gl_FrontMaterial.specular;\n\
-        if(useSpecular>0.){\n\
-            vec2 st = vTexCoord;\n\
-            st.y = 1.-st.y;\n\
-            specular += texture2D(specularMap,st)*useSpecular;\n\
-        }\n\
-        \n\
-        return  gl_FrontLightModelProduct.sceneColor +\n\
-        amb * gl_FrontMaterial.ambient +\n\
-        diff * diffuseColor +\n\
-        spec * specular;\n\
-    }\n\
-    \n\
-    vec3 random3(vec3 c) {\n\
-        float j = 4096.0*sin(dot(c,vec3(17.0, 59.4, 15.0)));\n\
-        vec3 r;\n\
-        r.z = fract(512.0*j);\n\
-        j *= .125;\n\
-        r.x = fract(512.0*j);\n\
-        j *= .125;\n\
-        r.y = fract(512.0*j);\n\
-        return r-0.5;\n\
-    }\n\
-    \n\
-    const float F3 =  0.3333333;\n\
-    const float G3 =  0.1666667;\n\
-    float simplexNoise(vec3 p) {\n\
-        \n\
-        vec3 s = floor(p + dot(p, vec3(F3)));\n\
-        vec3 x = p - s + dot(s, vec3(G3));\n\
-        \n\
-        vec3 e = step(vec3(0.0), x - x.yzx);\n\
-        vec3 i1 = e*(1.0 - e.zxy);\n\
-        vec3 i2 = 1.0 - e.zxy*(1.0 - e);\n\
-        \n\
-        vec3 x1 = x - i1 + G3;\n\
-        vec3 x2 = x - i2 + 2.0*G3;\n\
-        vec3 x3 = x - 1.0 + 3.0*G3;\n\
-        \n\
-        vec4 w, d;\n\
-        \n\
-        w.x = dot(x, x);\n\
-        w.y = dot(x1, x1);\n\
-        w.z = dot(x2, x2);\n\
-        w.w = dot(x3, x3);\n\
-        \n\
-        w = max(0.6 - w, 0.0);\n\
-        \n\
-        d.x = dot(random3(s), x);\n\
-        d.y = dot(random3(s + i1), x1);\n\
-        d.z = dot(random3(s + i2), x2);\n\
-        d.w = dot(random3(s + 1.0), x3);\n\
-        \n\
-        w *= w;\n\
-        w *= w;\n\
-        d *= w;\n\
-        \n\
-        return dot(d, vec4(52.0));\n\
-    }\n\
-    \n\
-    uniform float oceanNoisePct;\n\
-    uniform float oceanNoiseZoom;\n\
-    uniform float oceanNoiseSpeed;\n\
-    uniform float time;\n\
-    \n\
-    vec3 normalNoise(vec2 _st, float _zoom, float _speed){\n\
-        vec2 v1 = _st;\n\
-        vec2 v2 = _st;\n\
-        vec2 v3 = _st;\n\
-        float expon = pow(10., _zoom);\n\
-        v1 /= 1.0*expon;\n\
-        v2 /= 0.62*expon;\n\
-        v3 /= 0.83*expon;\n\
-        float n = time*_speed;\n\
-        float nr = (simplexNoise(vec3(v1, n)) + simplexNoise(vec3(v2, n)) + simplexNoise(vec3(v3, n))) / 6.0 + 0.5;\n\
-        n = time * _speed + 1000.0;\n\
-        float ng = (simplexNoise(vec3(v1, n)) + simplexNoise(vec3(v2, n)) + simplexNoise(vec3(v3, n))) / 6.0 + 0.5;\n\
-        return vec3(nr,ng,1.0);\n\
-    }\n\
-    \n\
-    void main (void){\n\
-        vec3 N = normalize(vNormal);\n\
+    vec4 specular = gl_FrontMaterial.specular;\n\
+    if(useSpecular>0.){\n\
         vec2 st = vTexCoord;\n\
         st.y = 1.-st.y;\n\
+        specular += texture2D(specularMap,st)*useSpecular;\n\
+    }\n\
+    \n\
+    return  gl_FrontLightModelProduct.sceneColor +\n\
+            amb * gl_FrontMaterial.ambient +\n\
+            diff * diffuseColor +\n\
+            spec * specular;\n\
+}\n\
+\n\
+vec3 random3(vec3 c) {\n\
+    float j = 4096.0*sin(dot(c,vec3(17.0, 59.4, 15.0)));\n\
+    vec3 r;\n\
+    r.z = fract(512.0*j);\n\
+    j *= .125;\n\
+    r.x = fract(512.0*j);\n\
+    j *= .125;\n\
+    r.y = fract(512.0*j);\n\
+    return r-0.5;\n\
+}\n\
+\n\
+const float F3 =  0.3333333;\n\
+const float G3 =  0.1666667;\n\
+float simplexNoise(vec3 p) {\n\
+    \n\
+    vec3 s = floor(p + dot(p, vec3(F3)));\n\
+    vec3 x = p - s + dot(s, vec3(G3));\n\
+    \n\
+    vec3 e = step(vec3(0.0), x - x.yzx);\n\
+    vec3 i1 = e*(1.0 - e.zxy);\n\
+    vec3 i2 = 1.0 - e.zxy*(1.0 - e);\n\
+    \n\
+    vec3 x1 = x - i1 + G3;\n\
+    vec3 x2 = x - i2 + 2.0*G3;\n\
+    vec3 x3 = x - 1.0 + 3.0*G3;\n\
+    \n\
+    vec4 w, d;\n\
+    \n\
+    w.x = dot(x, x);\n\
+    w.y = dot(x1, x1);\n\
+    w.z = dot(x2, x2);\n\
+    w.w = dot(x3, x3);\n\
+    \n\
+    w = max(0.6 - w, 0.0);\n\
+    \n\
+    d.x = dot(random3(s), x);\n\
+    d.y = dot(random3(s + i1), x1);\n\
+    d.z = dot(random3(s + i2), x2);\n\
+    d.w = dot(random3(s + 1.0), x3);\n\
+    \n\
+    w *= w;\n\
+    w *= w;\n\
+    d *= w;\n\
+    \n\
+    return dot(d, vec4(52.0));\n\
+}\n\
+\n\
+uniform float oceanNoisePct;\n\
+uniform float oceanNoiseZoom;\n\
+uniform float oceanNoiseSpeed;\n\
+uniform float time;\n\
+\n\
+vec3 normalNoise(vec2 _st, float _zoom, float _speed){\n\
+    vec2 v1 = _st;\n\
+    vec2 v2 = _st;\n\
+    vec2 v3 = _st;\n\
+    float expon = pow(10., _zoom);\n\
+    v1 /= 1.0*expon;\n\
+    v2 /= 0.62*expon;\n\
+    v3 /= 0.83*expon;\n\
+    float n = time*_speed;\n\
+    float nr = (simplexNoise(vec3(v1, n)) + simplexNoise(vec3(v2, n)) + simplexNoise(vec3(v3, n))) / 6.0 + 0.5;\n\
+    n = time * _speed + 1000.0;\n\
+    float ng = (simplexNoise(vec3(v1, n)) + simplexNoise(vec3(v2, n)) + simplexNoise(vec3(v3, n))) / 6.0 + 0.5;\n\
+    return vec3(nr,ng,1.0);\n\
+}\n\
+\n\
+void main (void){\n\
+    vec3 N = normalize(vNormal);\n\
+    vec2 st = vTexCoord;\n\
+    st.y = 1.-st.y;\n\
+    \n\
+    vec4 day = texture2D(earth_day, st);\n\
+    vec4 night = texture2D(earth_night, st);\n\
+    \n\
+    vec3 normalTex = vec3(0.5);\n\
+    if (useNormal>0.){\n\
         \n\
-        vec4 day = texture2D(earth_day, st);\n\
-        vec4 night = texture2D(earth_night, st);\n\
+        float spec = texture2D(specularMap,st).r;\n\
+        normalTex = texture2D(normalMap, st).rgb;\n\
         \n\
-        vec3 normalTex = vec3(0.5);\n\
-        if (useNormal>0.){\n\
-            \n\
-            float spec = texture2D(specularMap,st).r;\n\
-            normalTex = texture2D(normalMap, st).rgb;\n\
-            \n\
-            if(oceanNoisePct>0.&&spec>0.){\n\
-                vec3 noiseTexture = normalNoise(st*vec2(1000.0,2000.0),oceanNoiseZoom,oceanNoiseSpeed);\n\
-                normalTex = mix(normalTex,noiseTexture,oceanNoisePct*spec);\n\
-            }\n\
-            normalTex = normalTex*2.0-1.;\n\
-            normalTex.xy *= useNormal*2.0;\n\
-            \n\
-            vec3 T = vec3(0.,1.,0.);\n\
-            vec3 BT = normalize( cross( vNormal, T ) * -1.0 );\n\
-            mat3 tsb = mat3( normalize( T ), normalize( BT ), normalize( vNormal ) );\n\
-            N = tsb * normalTex;\n\
+        if(oceanNoisePct>0.&&spec>0.){\n\
+            vec3 noiseTexture = normalNoise(st*vec2(1000.0,2000.0),oceanNoiseZoom,oceanNoiseSpeed);\n\
+            normalTex = mix(normalTex,noiseTexture,oceanNoisePct*spec);\n\
         }\n\
+        normalTex = normalTex*2.0-1.;\n\
+        normalTex.xy *= useNormal*2.0;\n\
         \n\
-        vec4 light = calc_lighting_color(vEye,N);\n\
+        vec3 T = vec3(0.,1.,0.);\n\
+        vec3 BT = normalize( cross( vNormal, T ) * -1.0 );\n\
+        mat3 tsb = mat3( normalize( T ), normalize( BT ), normalize( vNormal ) );\n\
+        N = tsb * normalTex;\n\
+    }\n\
+    \n\
+    vec4 light = calc_lighting_color(vEye,N);\n\
+    \n\
+    vec4 color = light;\n\
+    if(useTex>0.){\n\
+        color = mix(light,mix(night,day,length(light.rgb) ),useTex);\n\
+    }\n\
+    \n\
+    if(useRim>0.){\n\
+        float cosTheta = abs( dot( normalize(vEye), N) );\n\
+        float f = useRim * ( 1. - smoothstep( 0.0, 1., pow(cosTheta,0.2) ) );\n\
+        color.rgb += (1.0-gl_SecondaryColor.rgb)*f;\n\
+    }\n\
+    \n\
+    gl_FragColor.rgb = color.rgb;\n\
+    \n\
+    if(useTransparency>0.){\n\
+        float cosTheta = abs( dot( normalize(vEye), N) );\n\
+        float fresnel = pow(1.0 - cosTheta, 7.0);\n\
         \n\
-        vec4 color = light;\n\
-        if(useTex>0.){\n\
-            color = mix(light,mix(night,day,length(light.rgb) ),useTex);\n\
-        }\n\
-        \n\
-        if(useRim>0.){\n\
-            float cosTheta = abs( dot( normalize(vEye), N) );\n\
-            float f = useRim * ( 1. - smoothstep( 0.0, 1., pow(cosTheta,0.2) ) );\n\
-            color.rgb += (1.0-gl_SecondaryColor.rgb)*f;\n\
-        }\n\
-        \n\
-        gl_FragColor.rgb = color.rgb;\n\
-        \n\
-        if(useTransparency>0.){\n\
-            float cosTheta = abs( dot( normalize(vEye), N) );\n\
-            float fresnel = pow(1.0 - cosTheta, 7.0);\n\
-            \n\
-            gl_FragColor.a = mix(gl_Color.a,fresnel,useTransparency);\n\
-        } else {\n\
-            gl_FragColor.a = 1.;\n\
-        }\n\
-    }";
+        gl_FragColor.a = mix(gl_Color.a,fresnel,useTransparency);\n\
+    } else {\n\
+        gl_FragColor.a = 1.;\n\
+    }\n\
+}";
     
     setupShaderFromSource(GL_VERTEX_SHADER, vertexShader);
     setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentShader);

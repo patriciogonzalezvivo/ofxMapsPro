@@ -1,0 +1,4 @@
+ofxMapsPro
+ofxPro
+ofxUI
+ofxXmlSettings
