@@ -24,6 +24,9 @@ public:
     
     void    draw();
     
+    ofShader    scatterShader;
+    float       scatterExpo;
+    
 protected:
     void    guiEvent(ofxUIEventArgs &e);
     
@@ -31,9 +34,6 @@ protected:
     
     ofTexture   texDay, texNight;
     ofTexture   texNormals, texHeight, texSpecular;
-    
-    ofShader    scatterShader;
-    float       scatterExpo;
     
     VboMapLoader coast, borders, rivers;
     aColor      cCoast, cBorders, cRivers;

@@ -27,6 +27,9 @@ void Globe::selfSetup(){
     lightRays.allocate(settings);
     thresholdFbo.allocate(settings);
     lensFlareFbo.allocate(ofGetWidth(),ofGetHeight());
+    blur.allocate(ofGetWidth(),ofGetHeight(),GL_RGBA);
+    blur.fade = 1.0;
+    blur.passes = 5;
 }
 
 void Globe::selfSetupGuis(){
@@ -47,6 +50,12 @@ void Globe::guiSystemEvent(ofxUIEventArgs &e){
     
 }
 
+void Globe::selfBegin(){
+    cout << "Linking FBO" << endl;
+    
+    logGui.linkRenderTarget(&lightRays);//lensFlareFbo.dst);
+}
+
 void Globe::selfUpdate(){
 
 }
@@ -60,9 +69,6 @@ void Globe::billBoard(){
 	ofVec3f axisOfRotation = objToCam.crossed(objectLookAt);
 	axisOfRotation.normalize();
     
-//	glRotatef(-zRot->getPos(), 0.0, 0.0, 1.0);
-//	glRotatef(-yRot->getPos(), 0.0, 1.0, 0.0);
-//	glRotatef(-xRot->getPos(), 1.0, 0.0, 0.0);
 	glRotatef(-theta, axisOfRotation.x, axisOfRotation.y, axisOfRotation.z);
 }
 
@@ -82,10 +88,7 @@ void Globe::selfDraw(){
     ofEnableAlphaBlending();
     
     ofPushStyle();
-    
-    if(currentViewPort == 1){
-        ofClear(0,0);
-    }
+    ofClear(0,0);
     
     ofDisableLighting();
     ofPushMatrix();
@@ -110,6 +113,11 @@ void Globe::selfDraw(){
     } else {
         ofSetColor(0);
         ofDrawSphere(0, 0, globe.getRadius());
+        
+        globe.scatterShader.begin();
+        globe.scatterShader.setUniform1f("fExposure", 0.01);
+        ofDrawSphere(0, 0, globe.getRadius()+globe.getRadius()*0.01);
+        globe.scatterShader.end();
     }
     
     ofPopStyle();
@@ -155,12 +163,15 @@ void Globe::selfPostDraw(){
     thresholdShader.end();
     thresholdFbo.end();
     
+    blur << thresholdFbo;
+    blur.update();
+    
     //  FLARE
     //
     lensFlareFbo.src->begin();
     ofClear(0,0);
     flareShader.begin();
-    flareShader.setUniformTexture("tex0", thresholdFbo, 0);
+    flareShader.setUniformTexture("tex0", blur, 0);
     glBegin(GL_QUADS);
     glTexCoord2f(0, 0); glVertex3f(0, 0, 0);
     glTexCoord2f(width, 0); glVertex3f(width, 0, 0);
@@ -177,7 +188,7 @@ void Globe::selfPostDraw(){
     modulateTextureShader.setUniformTexture("lightRays", lightRays.getTextureReference(), 1);
     modulateTextureShader.setUniformTexture("lensFlare", lensFlareFbo.src->getTextureReference(), 2);
     modulateTextureShader.setUniformTexture("dirtImage", dirtImage.getTextureReference(), 3);
-    modulateTextureShader.setUniform2f("dirtImageRes", dirtImage.getWidth(), dirtImage.getHeight());
+    modulateTextureShader.setUniform2f("_dirtImageRes", dirtImage.getWidth(), dirtImage.getHeight());
     glBegin(GL_QUADS);
     glTexCoord2f(0, 0); glVertex3f(0, 0, 0);
     glTexCoord2f(width, 0); glVertex3f(width, 0, 0);

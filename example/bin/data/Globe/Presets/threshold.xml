@@ -3,7 +3,7 @@
     <Name>threshold</Name>
     <IsMinified>1</IsMinified>
     <XPosition>1.000000000</XPosition>
-    <YPosition>504.000000000</YPosition>
+    <YPosition>404.000000000</YPosition>
 </Canvas>
 <Widget>
     <Kind>2</Kind>
@@ -13,15 +13,15 @@
 <Widget>
     <Kind>25</Kind>
     <Name>x</Name>
-    <Value>0.204188481</Value>
+    <Value>0.895287931</Value>
 </Widget>
 <Widget>
     <Kind>25</Kind>
     <Name>y</Name>
-    <Value>0.178010151</Value>
+    <Value>0.869109869</Value>
 </Widget>
 <Widget>
     <Kind>25</Kind>
     <Name>z</Name>
-    <Value>0.198952720</Value>
+    <Value>0.858638585</Value>
 </Widget>

@@ -12,6 +12,8 @@
 #include "ofxGlobePro.h"
 #include "ofxStarsPro.h"
 
+#include "ofxBlur.h"
+
 class Globe : public ofx3DPro {
 public:
 
@@ -22,6 +24,8 @@ public:
     void selfSetupSystemGui();
     void guiSystemEvent(ofxUIEventArgs &e);
    
+    void selfBegin();
+    
     void selfUpdate();
     void selfDraw();
     
@@ -46,6 +50,7 @@ protected:
     UIShader flareShader;
     UIShader modulateTextureShader;
     PingPong lensFlareFbo;
+    ofxBlur  blur;
     
     ofImage sunImage;
     ofImage dirtImage;

@@ -1,9 +1,9 @@
 <Canvas>
     <Kind>40</Kind>
     <Name>lightScattering</Name>
-    <IsMinified>1</IsMinified>
-    <XPosition>1.000000000</XPosition>
-    <YPosition>479.000000000</YPosition>
+    <IsMinified>0</IsMinified>
+    <XPosition>459.000000000</XPosition>
+    <YPosition>635.000000000</YPosition>
 </Canvas>
 <Widget>
     <Kind>2</Kind>
@@ -13,30 +13,30 @@
 <Widget>
     <Kind>4</Kind>
     <Name>exposure</Name>
-    <Value>0.423645318</Value>
+    <Value>0.689655185</Value>
 </Widget>
 <Widget>
     <Kind>4</Kind>
     <Name>decay</Name>
-    <Value>0.935960591</Value>
+    <Value>0.881773412</Value>
 </Widget>
 <Widget>
     <Kind>4</Kind>
     <Name>density</Name>
-    <Value>1.000000000</Value>
+    <Value>0.300492615</Value>
 </Widget>
 <Widget>
     <Kind>4</Kind>
     <Name>weight</Name>
-    <Value>0.679802954</Value>
+    <Value>0.083743840</Value>
 </Widget>
 <Widget>
     <Kind>25</Kind>
     <Name>x</Name>
-    <Value>0.429319382</Value>
+    <Value>0.324607342</Value>
 </Widget>
 <Widget>
     <Kind>25</Kind>
     <Name>y</Name>
-    <Value>0.455497384</Value>
+    <Value>0.612565458</Value>
 </Widget>
