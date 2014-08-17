@@ -1,9 +1,9 @@
 <Canvas>
     <Kind>40</Kind>
     <Name>scatter</Name>
-    <IsMinified>0</IsMinified>
-    <XPosition>736.000000000</XPosition>
-    <YPosition>105.000000000</YPosition>
+    <IsMinified>1</IsMinified>
+    <XPosition>1.000000000</XPosition>
+    <YPosition>354.000000000</YPosition>
 </Canvas>
 <Widget>
     <Kind>2</Kind>
@@ -12,6 +12,11 @@
 </Widget>
 <Widget>
     <Kind>4</Kind>
+    <Name>cloudAmount</Name>
+    <Value>0.059113301</Value>
+</Widget>
+<Widget>
+    <Kind>4</Kind>
     <Name>fExposure</Name>
-    <Value>0.945812821</Value>
+    <Value>1.000000000</Value>
 </Widget>

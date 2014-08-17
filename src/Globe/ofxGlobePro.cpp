@@ -446,6 +446,7 @@ void main (void){\n\
 void ofxGlobePro::setupUI(){
     
     gui->addSlider("Radius", 10, 100, &radius);
+    gui->addRangeSlider("Clouds-Atmosphere_Radius", 0.01, 0.1, &cloudsRadius, &atmosphereRadius);
     gui->addSlider("Scatter_Exp", 0, 1., &scatterExpo);
     gui->addSpacer();
     
@@ -537,6 +538,8 @@ void ofxGlobePro::loadResources(string _path){
     ofLoadImage(texNormals,path+"/textures/normal.png");
     ofLoadImage(texHeight,path+"/textures/bump.jpg");
     ofLoadImage(texSpecular,path+"/textures/specular.png");
+    ofLoadImage(texClouds, path+"/textures/clouds_2048.jpg");
+    texClouds.setTextureWrap(GL_REPEAT, GL_REPEAT);
     ofEnableArbTex();
 }
 
@@ -568,17 +571,12 @@ void ofxGlobePro::draw(){
         if(texSpecular.isAllocated())
             setUniformTexture("specularMap",texSpecular,4);
         
-        ofDrawSphere(0, 0, radius);
+        if(texClouds.isAllocated())
+            setUniformTexture("cloudMap", texClouds, 5);
+        
+        ofDrawSphere(radius);
         end();
     }
-    
-    if(scatterExpo>0.){
-        scatterShader.begin();
-        scatterShader.setUniform1f("fExposure", scatterExpo);
-        ofDrawSphere(0, 0, radius+radius*0.01);
-        scatterShader.end();
-    }
-    ofPopStyle();
     
     ofDisableLighting();
     {
@@ -601,5 +599,23 @@ void ofxGlobePro::draw(){
         }
     }
     ofEnableLighting();
+    
+    if(texClouds.isAllocated()){
+        cloudsShader.begin();
+        cloudsShader.setUniformTexture("cloudMap", texClouds, 0);
+        ofDrawSphere(radius+radius*cloudsRadius);
+        cloudsShader.end();
+    }
+    
+    
+    if(scatterExpo>0.){
+        scatterShader.begin();
+        scatterShader.setUniform1f("fExposure", scatterExpo);
+        ofDrawSphere(radius+radius*atmosphereRadius);
+        scatterShader.end();
+    }
+    ofPopStyle();
+    
+    
 }
 

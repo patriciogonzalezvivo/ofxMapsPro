@@ -11,6 +11,9 @@ void Globe::selfSetup(){
     ofEnableSmoothing();
     ofSetCircleResolution(36);
     
+    globe.load(getDataPath()+"shaders/earth");
+    globe.cloudsShader.load(getDataPath()+"shaders/clouds");
+    
     //  Light Flair
     //
     scattering.load(getDataPath()+"shaders/lightScattering");
@@ -30,10 +33,14 @@ void Globe::selfSetup(){
     blur.allocate(ofGetWidth(),ofGetHeight(),GL_RGBA);
     blur.fade = 1.0;
     blur.passes = 5;
+    
+    FINAL.allocate(ofGetWidth(),ofGetHeight(),GL_RGBA);
 }
 
 void Globe::selfSetupGuis(){
     guiAdd(globe);
+    guiAdd(globe.cloudsShader);
+    
     guiAdd(stars);
     
     guiAdd(scattering);
@@ -53,7 +60,7 @@ void Globe::guiSystemEvent(ofxUIEventArgs &e){
 void Globe::selfBegin(){
     cout << "Linking FBO" << endl;
     
-    logGui.linkRenderTarget(&lightRays);//lensFlareFbo.dst);
+    logGui.linkRenderTarget(&FINAL);//lensFlareFbo.dst);
 }
 
 void Globe::selfUpdate(){
@@ -112,12 +119,7 @@ void Globe::selfDraw(){
         stars.draw();
     } else {
         ofSetColor(0);
-        ofDrawSphere(0, 0, globe.getRadius());
-        
-        globe.scatterShader.begin();
-        globe.scatterShader.setUniform1f("fExposure", 0.01);
-        ofDrawSphere(0, 0, globe.getRadius()+globe.getRadius()*0.01);
-        globe.scatterShader.end();
+        ofDrawSphere(globe.getRadius());
     }
     
     ofPopStyle();
@@ -132,74 +134,82 @@ void Globe::selfPostDraw(){
     int width = ofGetWidth();
     int height = ofGetHeight();
     
-    //  LIGHTS
-    //
-    lightRays.begin();
-    ofClear(0,0);
-    scattering.begin();
-    scattering.setUniformTexture("firstPass", getRenderTarget(1).getTextureReference(), 0);
-    glBegin(GL_QUADS);
-    glTexCoord2f(0, 0); glVertex3f(0, 0, 0);
-    glTexCoord2f(width, 0); glVertex3f(width, 0, 0);
-    glTexCoord2f(width, height); glVertex3f(width, height, 0);
-    glTexCoord2f(0,height);  glVertex3f(0,height, 0);
-    glEnd();
-    scattering.end();
-    lightRays.end();
+    if(modulateTextureShader.bEnable){
+        //  LIGHTS
+        //
+        lightRays.begin();
+        ofClear(0,0);
+        scattering.begin();
+        scattering.setUniformTexture("firstPass", getRenderTarget(1).getTextureReference(), 0);
+        glBegin(GL_QUADS);
+        glTexCoord2f(0, 0); glVertex3f(0, 0, 0);
+        glTexCoord2f(width, 0); glVertex3f(width, 0, 0);
+        glTexCoord2f(width, height); glVertex3f(width, height, 0);
+        glTexCoord2f(0,height);  glVertex3f(0,height, 0);
+        glEnd();
+        scattering.end();
+        lightRays.end();
+        
+        //  Threshold
+        //
+        thresholdFbo.begin();
+        ofClear(0,0);
+        thresholdShader.begin();
+        thresholdShader.setUniformTexture("tex0", getRenderTarget(1).getTextureReference(), 0);
+        thresholdShader.setUniform1i("flipXY", 1);
+        glBegin(GL_QUADS);
+        glTexCoord2f(0, 0); glVertex3f(0, 0, 0);
+        glTexCoord2f(width, 0); glVertex3f(width, 0, 0);
+        glTexCoord2f(width, height); glVertex3f(width, height, 0);
+        glTexCoord2f(0,height);  glVertex3f(0,height, 0);
+        glEnd();
+        thresholdShader.end();
+        thresholdFbo.end();
+        
+        blur << thresholdFbo;
+        blur.update();
+        
+        //  FLARE
+        //
+        lensFlareFbo.src->begin();
+        ofClear(0,0);
+        flareShader.begin();
+        flareShader.setUniformTexture("tex0", blur, 0);
+        glBegin(GL_QUADS);
+        glTexCoord2f(0, 0); glVertex3f(0, 0, 0);
+        glTexCoord2f(width, 0); glVertex3f(width, 0, 0);
+        glTexCoord2f(width, height); glVertex3f(width, height, 0);
+        glTexCoord2f(0,height);  glVertex3f(0,height, 0);
+        glEnd();
+        flareShader.end();
+        lensFlareFbo.src->end();
+        
+        lensFlareFbo.dst->begin();
+        ofClear(0,0);
+        modulateTextureShader.begin();
+        modulateTextureShader.setUniformTexture("firstPass", getRenderTarget(0).getTextureReference(), 0);
+        modulateTextureShader.setUniformTexture("lightRays", lightRays.getTextureReference(), 1);
+        modulateTextureShader.setUniformTexture("lensFlare", lensFlareFbo.src->getTextureReference(), 2);
+        modulateTextureShader.setUniformTexture("dirtImage", dirtImage.getTextureReference(), 3);
+        modulateTextureShader.setUniform2f("_dirtImageRes", dirtImage.getWidth(), dirtImage.getHeight());
+        glBegin(GL_QUADS);
+        glTexCoord2f(0, 0); glVertex3f(0, 0, 0);
+        glTexCoord2f(width, 0); glVertex3f(width, 0, 0);
+        glTexCoord2f(width, height); glVertex3f(width, height, 0);
+        glTexCoord2f(0,height);  glVertex3f(0,height, 0);
+        glEnd();
+        modulateTextureShader.end();
+        lensFlareFbo.dst->end();
+    }
     
-    //  Threshold
-    //
-    thresholdFbo.begin();
-    ofClear(0,0);
-    thresholdShader.begin();
-    thresholdShader.setUniformTexture("tex0", getRenderTarget(1).getTextureReference(), 0);
-    thresholdShader.setUniform1i("flipXY", 1);
-    glBegin(GL_QUADS);
-    glTexCoord2f(0, 0); glVertex3f(0, 0, 0);
-    glTexCoord2f(width, 0); glVertex3f(width, 0, 0);
-    glTexCoord2f(width, height); glVertex3f(width, height, 0);
-    glTexCoord2f(0,height);  glVertex3f(0,height, 0);
-    glEnd();
-    thresholdShader.end();
-    thresholdFbo.end();
-    
-    blur << thresholdFbo;
-    blur.update();
-    
-    //  FLARE
-    //
-    lensFlareFbo.src->begin();
-    ofClear(0,0);
-    flareShader.begin();
-    flareShader.setUniformTexture("tex0", blur, 0);
-    glBegin(GL_QUADS);
-    glTexCoord2f(0, 0); glVertex3f(0, 0, 0);
-    glTexCoord2f(width, 0); glVertex3f(width, 0, 0);
-    glTexCoord2f(width, height); glVertex3f(width, height, 0);
-    glTexCoord2f(0,height);  glVertex3f(0,height, 0);
-    glEnd();
-    flareShader.end();
-    lensFlareFbo.src->end();
-    
-    lensFlareFbo.dst->begin();
-    ofClear(0,0);
-    modulateTextureShader.begin();
-    modulateTextureShader.setUniformTexture("firstPass", getRenderTarget(0).getTextureReference(), 0);
-    modulateTextureShader.setUniformTexture("lightRays", lightRays.getTextureReference(), 1);
-    modulateTextureShader.setUniformTexture("lensFlare", lensFlareFbo.src->getTextureReference(), 2);
-    modulateTextureShader.setUniformTexture("dirtImage", dirtImage.getTextureReference(), 3);
-    modulateTextureShader.setUniform2f("_dirtImageRes", dirtImage.getWidth(), dirtImage.getHeight());
-    glBegin(GL_QUADS);
-    glTexCoord2f(0, 0); glVertex3f(0, 0, 0);
-    glTexCoord2f(width, 0); glVertex3f(width, 0, 0);
-    glTexCoord2f(width, height); glVertex3f(width, height, 0);
-    glTexCoord2f(0,height);  glVertex3f(0,height, 0);
-    glEnd();
-    modulateTextureShader.end();
-    lensFlareFbo.dst->end();
-    
+    FINAL.begin();
     getRenderTarget(0).draw(0, 0);
-    lensFlareFbo.dst->draw(0, 0);
+    if(modulateTextureShader.bEnable){
+        lensFlareFbo.dst->draw(0, 0);
+    }
+    FINAL.end();
+    
+    FINAL.draw(0,0);
     
     if(bDebug){
         ofPushMatrix();
@@ -221,5 +231,7 @@ void Globe::selfWindowResized(ofResizeEventArgs & args){
     lightRays.allocate(settings);
     thresholdFbo.allocate(settings);
     lensFlareFbo.allocate(ofGetWidth(),ofGetHeight());
+    
+    FINAL.allocate(ofGetWidth(),ofGetHeight());
 }
 

@@ -24,20 +24,30 @@ public:
     
     void    draw();
     
-    ofShader    scatterShader;
-    float       scatterExpo;
+    UIShader    cloudsShader;
     
 protected:
     void    guiEvent(ofxUIEventArgs &e);
     
     string      path;
     
+    //  Earth
+    //
     ofTexture   texDay, texNight;
     ofTexture   texNormals, texHeight, texSpecular;
     
     VboMapLoader coast, borders, rivers;
     aColor      cCoast, cBorders, cRivers;
     bool        bCoast, bBorders, bRivers;
-    
     float       radius;
+    
+    //  Clouds
+    //
+    ofTexture   texClouds;
+    float       cloudsRadius;
+    
+    // Atmosphere Scatter
+    //
+    ofShader    scatterShader;
+    float       scatterExpo, atmosphereRadius;
 };

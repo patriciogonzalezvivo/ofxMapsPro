@@ -34,7 +34,8 @@ float scale(float fCos){
 void main() {
 
     vPos =  vec4(gl_Vertex.xyz, 1.0 );
-    vTexCoord = gl_MultiTexCoord0.xy;
+    vTexCoord = vec2(gl_MultiTexCoord0.x,1.0-gl_MultiTexCoord0.y);
+
     vNormal = normalize(gl_NormalMatrix * gl_Normal);
     vec4 eyeSpaceVertexPos = gl_ModelViewMatrix * gl_Vertex;
     vEye = (vec3(eyeSpaceVertexPos)) / eyeSpaceVertexPos.w;

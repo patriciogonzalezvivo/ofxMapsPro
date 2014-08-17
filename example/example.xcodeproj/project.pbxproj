@@ -28,6 +28,24 @@
 		3D5035D51973FCCB000CD0CC /* TileLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D5035CD1973FCCB000CD0CC /* TileLoader.cpp */; };
 		3D5035D61973FCCB000CD0CC /* TileMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D5035CF1973FCCB000CD0CC /* TileMap.cpp */; };
 		3D503633197427C1000CD0CC /* ofxFXObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D503626197427C1000CD0CC /* ofxFXObject.cpp */; };
+		3D6A579019883CA3008C7C7C /* UI3DGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D6A576519883CA3008C7C7C /* UI3DGrid.cpp */; };
+		3D6A579119883CA3008C7C7C /* UIMapBackground.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D6A576719883CA3008C7C7C /* UIMapBackground.cpp */; };
+		3D6A579219883CA3008C7C7C /* UIRectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D6A576A19883CA3008C7C7C /* UIRectangle.cpp */; };
+		3D6A579319883CA3008C7C7C /* TextArc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D6A576D19883CA3008C7C7C /* TextArc.cpp */; };
+		3D6A579419883CA3008C7C7C /* TextBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D6A576F19883CA3008C7C7C /* TextBlock.cpp */; };
+		3D6A579519883CA3008C7C7C /* TextShape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D6A577219883CA3008C7C7C /* TextShape.cpp */; };
+		3D6A579619883CA3008C7C7C /* UIText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D6A577519883CA3008C7C7C /* UIText.cpp */; };
+		3D6A579719883CA3008C7C7C /* UIDoF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D6A577819883CA3008C7C7C /* UIDoF.cpp */; };
+		3D6A579819883CA3008C7C7C /* UIEdge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D6A577A19883CA3008C7C7C /* UIEdge.cpp */; };
+		3D6A579919883CA3008C7C7C /* UILUT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D6A577C19883CA3008C7C7C /* UILUT.cpp */; };
+		3D6A579A19883CA3008C7C7C /* fft.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D6A578019883CA3008C7C7C /* fft.cpp */; };
+		3D6A579B19883CA3008C7C7C /* fftOctaveAnalyzer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D6A578219883CA3008C7C7C /* fftOctaveAnalyzer.cpp */; };
+		3D6A579C19883CA3008C7C7C /* UIAudioIn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D6A578419883CA3008C7C7C /* UIAudioIn.cpp */; };
+		3D6A579D19883CA3008C7C7C /* UISurface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D6A578719883CA3008C7C7C /* UISurface.cpp */; };
+		3D6A579E19883CA3008C7C7C /* UIBumpMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D6A578A19883CA3008C7C7C /* UIBumpMap.cpp */; };
+		3D6A579F19883CA3008C7C7C /* UIHatchMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D6A578C19883CA3008C7C7C /* UIHatchMap.cpp */; };
+		3D6A57A019883CA3008C7C7C /* UIMatCap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D6A578E19883CA3008C7C7C /* UIMatCap.cpp */; };
+		3D6A57A419883DF0008C7C7C /* UILightFlair.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D6A57A219883DF0008C7C7C /* UILightFlair.cpp */; };
 		3d4ea8e172d3e4a30fefa969797f0789 /* ofxUIImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 938f5a098a216b403906129cc0e18a64 /* ofxUIImage.cpp */; };
 		43badbb2fe0f17d34b57a705622bd4a2 /* ofxUIScrollableCanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = bfd3387aa9efa53e1b4f087b3fdfa1d3 /* ofxUIScrollableCanvas.cpp */; };
 		4b3ed367ca852d522e2ee996fd98484a /* ofxUI2DPad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1553d7111bcbe7834bcc0784d535c378 /* ofxUI2DPad.cpp */; };
@@ -247,6 +265,45 @@
 		3D503630197427C1000CD0CC /* ofxRipples.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxRipples.h; sourceTree = "<group>"; };
 		3D503631197427C1000CD0CC /* ofxSubstract.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxSubstract.h; sourceTree = "<group>"; };
 		3D503632197427C1000CD0CC /* ofxThreshold.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxThreshold.h; sourceTree = "<group>"; };
+		3D6A576519883CA3008C7C7C /* UI3DGrid.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UI3DGrid.cpp; sourceTree = "<group>"; };
+		3D6A576619883CA3008C7C7C /* UI3DGrid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UI3DGrid.h; sourceTree = "<group>"; };
+		3D6A576719883CA3008C7C7C /* UIMapBackground.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UIMapBackground.cpp; sourceTree = "<group>"; };
+		3D6A576819883CA3008C7C7C /* UIMapBackground.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIMapBackground.h; sourceTree = "<group>"; };
+		3D6A576919883CA3008C7C7C /* UINotes.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = UINotes.zip; sourceTree = "<group>"; };
+		3D6A576A19883CA3008C7C7C /* UIRectangle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UIRectangle.cpp; sourceTree = "<group>"; };
+		3D6A576B19883CA3008C7C7C /* UIRectangle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIRectangle.h; sourceTree = "<group>"; };
+		3D6A576D19883CA3008C7C7C /* TextArc.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TextArc.cpp; sourceTree = "<group>"; };
+		3D6A576E19883CA3008C7C7C /* TextArc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextArc.h; sourceTree = "<group>"; };
+		3D6A576F19883CA3008C7C7C /* TextBlock.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TextBlock.cpp; sourceTree = "<group>"; };
+		3D6A577019883CA3008C7C7C /* TextBlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextBlock.h; sourceTree = "<group>"; };
+		3D6A577119883CA3008C7C7C /* TextFont.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextFont.h; sourceTree = "<group>"; };
+		3D6A577219883CA3008C7C7C /* TextShape.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TextShape.cpp; sourceTree = "<group>"; };
+		3D6A577319883CA3008C7C7C /* TextShape.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextShape.h; sourceTree = "<group>"; };
+		3D6A577419883CA3008C7C7C /* TextSyles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextSyles.h; sourceTree = "<group>"; };
+		3D6A577519883CA3008C7C7C /* UIText.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UIText.cpp; sourceTree = "<group>"; };
+		3D6A577619883CA3008C7C7C /* UIText.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIText.h; sourceTree = "<group>"; };
+		3D6A577819883CA3008C7C7C /* UIDoF.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UIDoF.cpp; sourceTree = "<group>"; };
+		3D6A577919883CA3008C7C7C /* UIDoF.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIDoF.h; sourceTree = "<group>"; };
+		3D6A577A19883CA3008C7C7C /* UIEdge.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UIEdge.cpp; sourceTree = "<group>"; };
+		3D6A577B19883CA3008C7C7C /* UIEdge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIEdge.h; sourceTree = "<group>"; };
+		3D6A577C19883CA3008C7C7C /* UILUT.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UILUT.cpp; sourceTree = "<group>"; };
+		3D6A577D19883CA3008C7C7C /* UILUT.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UILUT.h; sourceTree = "<group>"; };
+		3D6A578019883CA3008C7C7C /* fft.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = fft.cpp; sourceTree = "<group>"; };
+		3D6A578119883CA3008C7C7C /* fft.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fft.h; sourceTree = "<group>"; };
+		3D6A578219883CA3008C7C7C /* fftOctaveAnalyzer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = fftOctaveAnalyzer.cpp; sourceTree = "<group>"; };
+		3D6A578319883CA3008C7C7C /* fftOctaveAnalyzer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fftOctaveAnalyzer.h; sourceTree = "<group>"; };
+		3D6A578419883CA3008C7C7C /* UIAudioIn.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UIAudioIn.cpp; sourceTree = "<group>"; };
+		3D6A578519883CA3008C7C7C /* UIAudioIn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIAudioIn.h; sourceTree = "<group>"; };
+		3D6A578719883CA3008C7C7C /* UISurface.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UISurface.cpp; sourceTree = "<group>"; };
+		3D6A578819883CA3008C7C7C /* UISurface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UISurface.h; sourceTree = "<group>"; };
+		3D6A578A19883CA3008C7C7C /* UIBumpMap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UIBumpMap.cpp; sourceTree = "<group>"; };
+		3D6A578B19883CA3008C7C7C /* UIBumpMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIBumpMap.h; sourceTree = "<group>"; };
+		3D6A578C19883CA3008C7C7C /* UIHatchMap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UIHatchMap.cpp; sourceTree = "<group>"; };
+		3D6A578D19883CA3008C7C7C /* UIHatchMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIHatchMap.h; sourceTree = "<group>"; };
+		3D6A578E19883CA3008C7C7C /* UIMatCap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UIMatCap.cpp; sourceTree = "<group>"; };
+		3D6A578F19883CA3008C7C7C /* UIMatCap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIMatCap.h; sourceTree = "<group>"; };
+		3D6A57A219883DF0008C7C7C /* UILightFlair.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UILightFlair.cpp; sourceTree = "<group>"; };
+		3D6A57A319883DF0008C7C7C /* UILightFlair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UILightFlair.h; sourceTree = "<group>"; };
 		3ad2825ce505dfc605884e9561f07573 /* ofx3DPro.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofx3DPro.cpp; path = ../../../addons/ofxPro/src/ofx3DPro.cpp; sourceTree = SOURCE_ROOT; };
 		3c9066fb257b904a547019eda3209785 /* ofxUIDragableLabelButton.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxUIDragableLabelButton.h; path = ../../../addons/ofxUI/src/ofxUIDragableLabelButton.h; sourceTree = SOURCE_ROOT; };
 		3d039979bd660442ecdc2dd5dc0cb708 /* UIEasyCam.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = UIEasyCam.h; path = ../../../addons/ofxPro/src/3D/camera/UIEasyCam.h; sourceTree = SOURCE_ROOT; };
@@ -604,6 +661,125 @@
 			path = operations;
 			sourceTree = "<group>";
 		};
+		3D6A576219883CA3008C7C7C /* ofxFXPro */ = {
+			isa = PBXGroup;
+			children = (
+				3D6A576319883CA3008C7C7C /* src */,
+			);
+			name = ofxFXPro;
+			sourceTree = "<group>";
+		};
+		3D6A576319883CA3008C7C7C /* src */ = {
+			isa = PBXGroup;
+			children = (
+				3D6A57A119883DD8008C7C7C /* light */,
+				3D6A576419883CA3008C7C7C /* elements */,
+				3D6A577719883CA3008C7C7C /* filters */,
+				3D6A577E19883CA3008C7C7C /* input */,
+				3D6A578619883CA3008C7C7C /* output */,
+				3D6A578919883CA3008C7C7C /* render */,
+			);
+			name = src;
+			path = ../../ofxFXPro/src;
+			sourceTree = "<group>";
+		};
+		3D6A576419883CA3008C7C7C /* elements */ = {
+			isa = PBXGroup;
+			children = (
+				3D6A576519883CA3008C7C7C /* UI3DGrid.cpp */,
+				3D6A576619883CA3008C7C7C /* UI3DGrid.h */,
+				3D6A576719883CA3008C7C7C /* UIMapBackground.cpp */,
+				3D6A576819883CA3008C7C7C /* UIMapBackground.h */,
+				3D6A576919883CA3008C7C7C /* UINotes.zip */,
+				3D6A576A19883CA3008C7C7C /* UIRectangle.cpp */,
+				3D6A576B19883CA3008C7C7C /* UIRectangle.h */,
+				3D6A576C19883CA3008C7C7C /* UIText */,
+			);
+			path = elements;
+			sourceTree = "<group>";
+		};
+		3D6A576C19883CA3008C7C7C /* UIText */ = {
+			isa = PBXGroup;
+			children = (
+				3D6A576D19883CA3008C7C7C /* TextArc.cpp */,
+				3D6A576E19883CA3008C7C7C /* TextArc.h */,
+				3D6A576F19883CA3008C7C7C /* TextBlock.cpp */,
+				3D6A577019883CA3008C7C7C /* TextBlock.h */,
+				3D6A577119883CA3008C7C7C /* TextFont.h */,
+				3D6A577219883CA3008C7C7C /* TextShape.cpp */,
+				3D6A577319883CA3008C7C7C /* TextShape.h */,
+				3D6A577419883CA3008C7C7C /* TextSyles.h */,
+				3D6A577519883CA3008C7C7C /* UIText.cpp */,
+				3D6A577619883CA3008C7C7C /* UIText.h */,
+			);
+			path = UIText;
+			sourceTree = "<group>";
+		};
+		3D6A577719883CA3008C7C7C /* filters */ = {
+			isa = PBXGroup;
+			children = (
+				3D6A577819883CA3008C7C7C /* UIDoF.cpp */,
+				3D6A577919883CA3008C7C7C /* UIDoF.h */,
+				3D6A577A19883CA3008C7C7C /* UIEdge.cpp */,
+				3D6A577B19883CA3008C7C7C /* UIEdge.h */,
+				3D6A577C19883CA3008C7C7C /* UILUT.cpp */,
+				3D6A577D19883CA3008C7C7C /* UILUT.h */,
+			);
+			path = filters;
+			sourceTree = "<group>";
+		};
+		3D6A577E19883CA3008C7C7C /* input */ = {
+			isa = PBXGroup;
+			children = (
+				3D6A577F19883CA3008C7C7C /* fft */,
+				3D6A578419883CA3008C7C7C /* UIAudioIn.cpp */,
+				3D6A578519883CA3008C7C7C /* UIAudioIn.h */,
+			);
+			path = input;
+			sourceTree = "<group>";
+		};
+		3D6A577F19883CA3008C7C7C /* fft */ = {
+			isa = PBXGroup;
+			children = (
+				3D6A578019883CA3008C7C7C /* fft.cpp */,
+				3D6A578119883CA3008C7C7C /* fft.h */,
+				3D6A578219883CA3008C7C7C /* fftOctaveAnalyzer.cpp */,
+				3D6A578319883CA3008C7C7C /* fftOctaveAnalyzer.h */,
+			);
+			path = fft;
+			sourceTree = "<group>";
+		};
+		3D6A578619883CA3008C7C7C /* output */ = {
+			isa = PBXGroup;
+			children = (
+				3D6A578719883CA3008C7C7C /* UISurface.cpp */,
+				3D6A578819883CA3008C7C7C /* UISurface.h */,
+			);
+			path = output;
+			sourceTree = "<group>";
+		};
+		3D6A578919883CA3008C7C7C /* render */ = {
+			isa = PBXGroup;
+			children = (
+				3D6A578A19883CA3008C7C7C /* UIBumpMap.cpp */,
+				3D6A578B19883CA3008C7C7C /* UIBumpMap.h */,
+				3D6A578C19883CA3008C7C7C /* UIHatchMap.cpp */,
+				3D6A578D19883CA3008C7C7C /* UIHatchMap.h */,
+				3D6A578E19883CA3008C7C7C /* UIMatCap.cpp */,
+				3D6A578F19883CA3008C7C7C /* UIMatCap.h */,
+			);
+			path = render;
+			sourceTree = "<group>";
+		};
+		3D6A57A119883DD8008C7C7C /* light */ = {
+			isa = PBXGroup;
+			children = (
+				3D6A57A219883DF0008C7C7C /* UILightFlair.cpp */,
+				3D6A57A319883DF0008C7C7C /* UILightFlair.h */,
+			);
+			path = light;
+			sourceTree = "<group>";
+		};
 		4498ce9b8e240feb08598038cef0cd38 /* src */ = {
 			isa = PBXGroup;
 			children = (
@@ -683,6 +859,7 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				3D6A576219883CA3008C7C7C /* ofxFXPro */,
 				3D503609197427C1000CD0CC /* ofxFX */,
 				157f306cdf54366f68b0504829ac8d9d /* ofxMapsPro */,
 				97dd4f2054806c82017f89a4d417bd39 /* ofxPro */,
@@ -1033,11 +1210,13 @@
 				c8aa339a508bf7d634d22c71ba63a10d /* UICamera.cpp in Sources */,
 				8b7ab46215f221a721ef9d872f84567e /* UIEasyCam.cpp in Sources */,
 				546fa20bb1a9923c0d70b030714489ce /* UIGameCam.cpp in Sources */,
+				3D6A57A019883CA3008C7C7C /* UIMatCap.cpp in Sources */,
 				f0ce516db3399e77ad2f6ca2ecc9c5bf /* Cursor.cpp in Sources */,
 				233f94b0ae80734d8cc14bf17ae039a5 /* UIFog.cpp in Sources */,
 				f781b561b60cb40bea8c438486f5382d /* UILight.cpp in Sources */,
 				a0a966a36af43f37fe3b04c8d8591871 /* UIMaterial.cpp in Sources */,
 				65f63a5d43bcd42e75a052e28603689f /* UIBackground.cpp in Sources */,
+				3D6A579B19883CA3008C7C7C /* fftOctaveAnalyzer.cpp in Sources */,
 				99c7c26d4e293fe9d4f507a7d5debb19 /* UIBackShader.cpp in Sources */,
 				acf37bbec4b8e0a446920190ef7b6131 /* UIShader.cpp in Sources */,
 				b0db759bde74ad37c5a5b1a141379ef5 /* Flickr.cpp in Sources */,
@@ -1047,14 +1226,17 @@
 				3D5035BA1973FC5B000CD0CC /* Star.cpp in Sources */,
 				a5a9e92de1d3f479492bbc750605c386 /* UILog.cpp in Sources */,
 				cd6a959c2f84eedcd16cacc9af2ba269 /* HotKeys_impl_linux.cpp in Sources */,
+				3D6A579919883CA3008C7C7C /* UILUT.cpp in Sources */,
 				f8be9f269cedce8644acc99a47e34d43 /* HotKeys_impl_mac.mm in Sources */,
 				db0e496c949eb465ae9dd52a9633b86a /* HotKeys_impl_win.cpp in Sources */,
 				f5b5b5a3a38fcf7c160654afe684e81b /* SystemTextbox.mm in Sources */,
 				8afc9b06e16e44ce551532a87071101b /* UIClass.cpp in Sources */,
 				2495d6254b6bed8d93ec6c5bdb594382 /* ofx2DPro.cpp in Sources */,
 				0df56c3892ce0f7a2378327acce8d0a7 /* ofx3DPro.cpp in Sources */,
+				3D6A579F19883CA3008C7C7C /* UIHatchMap.cpp in Sources */,
 				9f5c6dd965b4f3a6db5b88f87eccedae /* ofxUI2DGraph.cpp in Sources */,
 				4b3ed367ca852d522e2ee996fd98484a /* ofxUI2DPad.cpp in Sources */,
+				3D6A579C19883CA3008C7C7C /* UIAudioIn.cpp in Sources */,
 				f1e8de8734ba6f69a5112fa8842e54b0 /* ofxUIBaseDraws.cpp in Sources */,
 				3D5035D61973FCCB000CD0CC /* TileMap.cpp in Sources */,
 				c381f2b7cfd84c0e540eb4bc733a62e4 /* ofxUIBiLabelSlider.cpp in Sources */,
@@ -1062,20 +1244,27 @@
 				3D5035D51973FCCB000CD0CC /* TileLoader.cpp in Sources */,
 				7be46522b64e24faede1a25d93f6298e /* ofxUICanvas.cpp in Sources */,
 				df0c851b244c4c867cea8806a6cdddab /* ofxUICircleSlider.cpp in Sources */,
+				3D6A57A419883DF0008C7C7C /* UILightFlair.cpp in Sources */,
 				9be4ae0aa2b8c436bdfe9d4d6ad0b03d /* ofxUIDragableLabelButton.cpp in Sources */,
 				f392a99d83698fc09912788025e19c5d /* ofxUIDropDownList.cpp in Sources */,
+				3D6A579519883CA3008C7C7C /* TextShape.cpp in Sources */,
 				3D5035D21973FCCB000CD0CC /* LinearProjection.cpp in Sources */,
 				084025da517d8329301fe1b62b99dfa0 /* ofxUIEventArgs.cpp in Sources */,
+				3D6A579E19883CA3008C7C7C /* UIBumpMap.cpp in Sources */,
+				3D6A579219883CA3008C7C7C /* UIRectangle.cpp in Sources */,
 				7252706da14c1be63950adda6d4d0967 /* ofxUIFPS.cpp in Sources */,
 				22030cbdcc25d815e7ed6757c2507f08 /* ofxUIFPSSlider.cpp in Sources */,
 				3d4ea8e172d3e4a30fefa969797f0789 /* ofxUIImage.cpp in Sources */,
 				3D5035B91973FC5B000CD0CC /* ofxStarsPro.cpp in Sources */,
 				7f2cd93f681f3c1547b3bf2cda37f2c3 /* ofxUIImageButton.cpp in Sources */,
 				fbd0cd0afe3849c14e829caf7e0e3be7 /* ofxUIImageSampler.cpp in Sources */,
+				3D6A579119883CA3008C7C7C /* UIMapBackground.cpp in Sources */,
 				26874b150c8535aea0f24c8cd56cf117 /* ofxUIImageSlider.cpp in Sources */,
+				3D6A579019883CA3008C7C7C /* UI3DGrid.cpp in Sources */,
 				fb8aa9fa6535767be31806bc88df3167 /* ofxUIImageToggle.cpp in Sources */,
 				7c3dc84c9bfcbd2866db2b6c92bca892 /* ofxUILabel.cpp in Sources */,
 				ffd1ebfca24dfb4e4427b4fe929ae1ab /* ofxUILabelButton.cpp in Sources */,
+				3D6A579319883CA3008C7C7C /* TextArc.cpp in Sources */,
 				c30b3a2a37f8f32ee73187189cd6fb94 /* ofxUILabelToggle.cpp in Sources */,
 				9a83d1b3fb64456bc907667ffbe9b65f /* ofxUIMinimalSlider.cpp in Sources */,
 				f440b307990f8f5ce40b91110219006d /* ofxUIMovingGraph.cpp in Sources */,
@@ -1088,13 +1277,17 @@
 				fe0f1db69accd163e9da2a15f72c9129 /* ofxUIRotarySlider.cpp in Sources */,
 				3D5035D31973FCCB000CD0CC /* ofxTileMapPro.cpp in Sources */,
 				43badbb2fe0f17d34b57a705622bd4a2 /* ofxUIScrollableCanvas.cpp in Sources */,
+				3D6A579419883CA3008C7C7C /* TextBlock.cpp in Sources */,
+				3D6A579D19883CA3008C7C7C /* UISurface.cpp in Sources */,
 				740a58cbfdfe578c83a349afda24a0fe /* ofxUISlider.cpp in Sources */,
 				ade7c2afc51e3f7e5e3890264322a001 /* ofxUISortableList.cpp in Sources */,
 				3D5035D41973FCCB000CD0CC /* SimpleWebScraper.cpp in Sources */,
 				bfefce32dafe10a8eb519f6c334204d2 /* ofxUISpacer.cpp in Sources */,
 				52aff80a869790144accc9baec2cfca4 /* ofxUISpectrum.cpp in Sources */,
 				1daac3fb4b98b08ae63f46877fad709d /* ofxUISuperCanvas.cpp in Sources */,
+				3D6A579A19883CA3008C7C7C /* fft.cpp in Sources */,
 				5ae95adb5549701423b6da481fb20e6f /* ofxUITabBar.cpp in Sources */,
+				3D6A579719883CA3008C7C7C /* UIDoF.cpp in Sources */,
 				c961be22ab9a8ccf037fc18f5bdc5491 /* ofxUITextArea.cpp in Sources */,
 				f8d05f7c7f785ce323983b47e137110b /* ofxUITextInput.cpp in Sources */,
 				04c82720b149ce576b8cbb06ac6d40d2 /* ofxUIToggle.cpp in Sources */,
@@ -1103,8 +1296,10 @@
 				ae281bebf3a00f1fc37f3da0ac10fa4d /* ofxUIWaveform.cpp in Sources */,
 				82845e1f8c90e1f5a99d98683a1ff0c2 /* ofxUIWidget.cpp in Sources */,
 				3D503633197427C1000CD0CC /* ofxFXObject.cpp in Sources */,
+				3D6A579819883CA3008C7C7C /* UIEdge.cpp in Sources */,
 				ce5d89b9893eaa12f511dcac13d6f351 /* ofxUIWidgetWithLabel.cpp in Sources */,
 				63b57ac5bf4ef088491e0317dbb2ecaa /* ofxXmlSettings.cpp in Sources */,
+				3D6A579619883CA3008C7C7C /* UIText.cpp in Sources */,
 				933a2227713c720ceff80fd967d0a8ee /* tinyxml.cpp in Sources */,
 				9d44dc88ef9e7991b4a09951e2e4769f /* tinyxmlerror.cpp in Sources */,
 				5a4349e9754d6fa14c0f2a3a1abc30b6 /* tinyxmlparser.cpp in Sources */,

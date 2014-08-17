@@ -2,8 +2,8 @@
     <Kind>40</Kind>
     <Name>earth</Name>
     <IsMinified>0</IsMinified>
-    <XPosition>1408.000000000</XPosition>
-    <YPosition>76.000000000</YPosition>
+    <XPosition>762.000000000</XPosition>
+    <YPosition>-51.000000000</YPosition>
 </Canvas>
 <Widget>
     <Kind>2</Kind>
@@ -13,12 +13,17 @@
 <Widget>
     <Kind>4</Kind>
     <Name>Radius</Name>
-    <Value>49.458126068</Value>
+    <Value>50.344829559</Value>
+</Widget>
+<Widget>
+    <Kind>4</Kind>
+    <Name>Atmosphere_Radius</Name>
+    <Value>0.047684729</Value>
 </Widget>
 <Widget>
     <Kind>4</Kind>
     <Name>Scatter_Exp</Name>
-    <Value>0.000000000</Value>
+    <Value>0.532019675</Value>
 </Widget>
 <Widget>
     <Kind>2</Kind>
@@ -38,7 +43,7 @@
 <Widget>
     <Kind>25</Kind>
     <Name>cBRI</Name>
-    <Value>0.000000000</Value>
+    <Value>1.000000000</Value>
 </Widget>
 <Widget>
     <Kind>4</Kind>
@@ -53,17 +58,17 @@
 <Widget>
     <Kind>25</Kind>
     <Name>rHUE</Name>
-    <Value>0.000000000</Value>
+    <Value>0.560209453</Value>
 </Widget>
 <Widget>
     <Kind>25</Kind>
     <Name>rSAT</Name>
-    <Value>0.000000000</Value>
+    <Value>0.659685850</Value>
 </Widget>
 <Widget>
     <Kind>25</Kind>
     <Name>rBRI</Name>
-    <Value>1.000000000</Value>
+    <Value>0.141361251</Value>
 </Widget>
 <Widget>
     <Kind>4</Kind>
@@ -88,7 +93,7 @@
 <Widget>
     <Kind>25</Kind>
     <Name>bBRI</Name>
-    <Value>0.664921463</Value>
+    <Value>0.863874316</Value>
 </Widget>
 <Widget>
     <Kind>4</Kind>
@@ -98,17 +103,17 @@
 <Widget>
     <Kind>4</Kind>
     <Name>useNormal</Name>
-    <Value>0.862068951</Value>
+    <Value>0.458128065</Value>
 </Widget>
 <Widget>
     <Kind>4</Kind>
     <Name>useRim</Name>
-    <Value>0.512315273</Value>
+    <Value>1.000000000</Value>
 </Widget>
 <Widget>
     <Kind>4</Kind>
     <Name>useTex</Name>
-    <Value>0.000000000</Value>
+    <Value>1.000000000</Value>
 </Widget>
 <Widget>
     <Kind>4</Kind>

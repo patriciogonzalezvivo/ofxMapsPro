@@ -1,16 +1,7 @@
-//#version 120
-uniform sampler2D earth_day;
-uniform sampler2D earth_night;
-uniform sampler2D normalMap;
-uniform sampler2D bumpMap;
-uniform sampler2D specularMap;
-uniform sampler2D cloudMap;
+#version 120
 
-uniform float useNormal;
-uniform float useRim;
-uniform float useTex;
-uniform float useTransparency;
-uniform float useSpecular;
+uniform sampler2D cloudMap;
+uniform float time;
 
 varying vec4 vPos;
 varying vec2 vTexCoord;
@@ -133,123 +124,21 @@ vec4 calc_lighting_color(in vec3 _ecPosition, in vec3 _normal) {
             spec * gl_FrontMaterial.specular;
 }
 
-// Simplex 3D noise
-//
-vec3 random3(vec3 c) {
-    float j = 4096.0*sin(dot(c,vec3(17.0, 59.4, 15.0)));
-    vec3 r;
-    r.z = fract(512.0*j);
-    j *= .125;
-    r.x = fract(512.0*j);
-    j *= .125;
-    r.y = fract(512.0*j);
-    return r-0.5;
-}
+void main() {
 
-const float F3 =  0.3333333;
-const float G3 =  0.1666667;
-float simplexNoise(vec3 p) {
+	vec4 color = vec4(0.);
 
-    vec3 s = floor(p + dot(p, vec3(F3)));
-    vec3 x = p - s + dot(s, vec3(G3));
-     
-    vec3 e = step(vec3(0.0), x - x.yzx);
-    vec3 i1 = e*(1.0 - e.zxy);
-    vec3 i2 = 1.0 - e.zxy*(1.0 - e);
-        
-    vec3 x1 = x - i1 + G3;
-    vec3 x2 = x - i2 + 2.0*G3;
-    vec3 x3 = x - 1.0 + 3.0*G3;
-     
-    vec4 w, d;
-     
-    w.x = dot(x, x);
-    w.y = dot(x1, x1);
-    w.z = dot(x2, x2);
-    w.w = dot(x3, x3);
-     
-    w = max(0.6 - w, 0.0);
-     
-    d.x = dot(random3(s), x);
-    d.y = dot(random3(s + i1), x1);
-    d.z = dot(random3(s + i2), x2);
-    d.w = dot(random3(s + 1.0), x3);
-     
-    w *= w;
-    w *= w;
-    d *= w;
-     
-    return dot(d, vec4(52.0));
-}
+	{
+        vec2 newCloudsCoordinate = vec2(vTexCoord.x + time/1000.0 , vTexCoord.y);
+        vec2 position = (newCloudsCoordinate-0.5)*2.0;
+        float len = length(position);
+        vec2 dir = position/len;
 
-uniform float oceanNoisePct;
-uniform float oceanNoiseZoom;
-uniform float oceanNoiseSpeed;
-uniform float time;
+        newCloudsCoordinate += dir*cos(len*10.0-time*0.05)*0.01;
 
-vec3 normalNoise(vec2 _st, float _zoom, float _speed){
-    vec2 v1 = _st;
-    vec2 v2 = _st;
-    vec2 v3 = _st;
-    float expon = pow(10., _zoom);
-    v1 /= 1.0*expon;
-    v2 /= 0.62*expon;
-    v3 /= 0.83*expon;
-    float n = time*_speed;
-    float nr = (simplexNoise(vec3(v1, n)) + simplexNoise(vec3(v2, n)) + simplexNoise(vec3(v3, n))) / 6.0 + 0.5;
-    n = time * _speed + 1000.0;
-    float ng = (simplexNoise(vec3(v1, n)) + simplexNoise(vec3(v2, n)) + simplexNoise(vec3(v3, n))) / 6.0 + 0.5;
-    return vec3(nr,ng,1.0);
-}
-
-void main (void){
-    vec3 N = normalize(vNormal);
-    vec2 st = vTexCoord;
-    st.y = 1.-st.y;
-
-    vec4 day = texture2D(earth_day, st);
-    vec4 night = texture2D(earth_night, st);
-    float spec = texture2D(specularMap,st).r;
-    
-    vec3 normalTex = vec3(0.5);
-    if (useNormal>0.){
-        
-        normalTex = texture2D(normalMap, st).rgb;
-        
-        if(oceanNoisePct>0.&&spec>0.){
-            vec3 noiseTexture = normalNoise(st*vec2(1000.0,2000.0),oceanNoiseZoom,oceanNoiseSpeed);//vec3(1.0);
-            normalTex = mix(normalTex,noiseTexture,oceanNoisePct*spec);
-        }
-        normalTex = normalTex*2.0-1.;
-        normalTex.xy *= useNormal*2.0;
-
-        vec3 T = vec3(0.,1.,0.);
-        vec3 BT = normalize( cross( vNormal, T ) * -1.0 );
-        mat3 tsb = mat3( normalize( T ), normalize( BT ), normalize( vNormal ) );
-        N = tsb * normalTex;
-    }
-    
-    vec4 light = calc_lighting_color(vEye,N);
-
-    vec4 color = light;
-    if(useTex>0.){
-        color = mix(light,mix(night,day,length(light.rgb) ),useTex);
+        color.rgb = calc_lighting_color(vEye,vNormal).rgb;
+        color.a = texture2D(cloudMap, newCloudsCoordinate).r;
     }
 
-    if(useRim>0.){
-        float cosTheta = abs( dot( normalize(vEye), N) );
-        float f = useRim * ( 1. - smoothstep( 0.0, 1., pow(cosTheta,0.2) ) );
-        color.rgb += (1.0-gl_SecondaryColor.rgb)*f;
-    }
-
-    gl_FragColor.rgb = color.rgb;
-
-    if(useTransparency>0.){
-        float cosTheta = abs( dot( normalize(vEye), N) );
-        float fresnel = pow(1.0 - cosTheta, 4.0);
-
-        gl_FragColor.a = mix(gl_Color.a,fresnel,useTransparency);
-    } else {
-        gl_FragColor.a = 1.;
-    }
+	gl_FragColor = color;
 }

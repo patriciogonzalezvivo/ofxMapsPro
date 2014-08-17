@@ -39,6 +39,8 @@ protected:
     ofxGlobePro globe;
     ofxStarsPro stars;
     
+    UIShader scatterShader;
+    
     //  Light Flair
     //
     UIShader scattering;
@@ -54,6 +56,8 @@ protected:
     
     ofImage sunImage;
     ofImage dirtImage;
+    
+    ofFbo   FINAL;
     
     void billBoard();
     float sunScale;
